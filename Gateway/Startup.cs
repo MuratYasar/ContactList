@@ -20,6 +20,11 @@ using Ocelot.Values;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Threading;
+using Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Contracts;
+using Logging;
 
 namespace Gateway
 {
@@ -34,10 +39,15 @@ namespace Gateway
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-
+        {            
             services.AddControllers();
-            
+
+            services.AddDbContext<ContactListContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
+            );
+
+            services.TryAddSingleton<ILoggerManager, LoggerManager>();
+
             services.AddOcelot()
                 .AddDelegatingHandler<RequestLogger>()
                 .AddCacheManager(settings => settings.WithDictionaryHandle())
