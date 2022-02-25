@@ -38,7 +38,9 @@ namespace Contact.DAL.Concrete
 
             if (result == true)
             {
-                await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().AddAsync(
+                _logger.LogInfo($"{entityContact.entity.Id.ToString()} - new contact added.");
+
+                var entityContactDetail = await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().AddReturnEntityAsync(
                     new Entities.DataModel.ContactDetail()
                     {
                         ContactId = entityContact.entity.Id,
@@ -52,22 +54,28 @@ namespace Contact.DAL.Concrete
 
                 if (resultContactDetail == true)
                 {
+                    _logger.LogInfo($"{entityContactDetail.entity.Id.ToString()} - new contact detail added for {entityContact.entity.Id.ToString()}.");
+
                     return true;
                 }
                 else
                 {
+                    _logger.LogError($"An error has been occurred while adding a new contact detail for the contact ({entityContact.entity.Id.ToString()}).");
+
                     return false;
                 }
             }
             else
             {
+                _logger.LogError($"An error has been occurred while adding a new contact.");
+
                 return false;
             }
         }
     
         public async Task<bool> AddContactDetailAsync(ContactDetailDtoInsert contactDetailDtoInsert)
         {
-            await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().AddAsync(
+            var entityContactDetail = await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().AddReturnEntityAsync(
                     new Entities.DataModel.ContactDetail()
                     {
                         ContactId = contactDetailDtoInsert.ContactId,
@@ -81,10 +89,14 @@ namespace Contact.DAL.Concrete
 
             if (resultContactDetail == true)
             {
+                _logger.LogInfo($"{entityContactDetail.entity.Id.ToString()} - new contact detail added for the contact ({contactDetailDtoInsert.ContactId.ToString()}).");
+
                 return true;
             }
             else
             {
+                _logger.LogError($"An error has been occurred while adding a new contact detail for the contact ({contactDetailDtoInsert.ContactId.ToString()}).");
+
                 return false;
             }
         }    
