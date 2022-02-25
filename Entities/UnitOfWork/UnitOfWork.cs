@@ -45,7 +45,7 @@ namespace Entities.UnitOfWork
             return repo;
         }
 
-        public async Task<bool> SaveChangesAsync(bool useChangeLogFeature)
+        public async Task<bool> SaveChangesAsync()
         {
             try
             {

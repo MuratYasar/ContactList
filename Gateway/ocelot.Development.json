@@ -1,98 +1,128 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/product",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/contact/GetAllContactsAsync",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7001
+          "Port": 6000
         }
       ],
-      "UpstreamPathTemplate": "/products",
+      "UpstreamPathTemplate": "/getallcontact",
       "UpstreamHttpMethod": [ "Get" ],
       "FileCacheOptions": { "TtlSeconds": 15 }
     },
     {
-      "DownstreamPathTemplate": "/product/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/contact/GetContactByIdAsync/{id}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7001
+          "Port": 6000
         }
       ],
-      "UpstreamPathTemplate": "/products/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "Key": "Product"
+      "UpstreamPathTemplate": "/getcontactbyid/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
     },
     {
-      "DownstreamPathTemplate": "/discount/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/contact/GetContactDetailByContactIdAsync/{id}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7010
-        },
-        {
-          "Host": "localhost",
-          "Port": 7011
-        },
-        {
-          "Host": "localhost",
-          "Port": 7012
+          "Port": 6000
         }
       ],
-      "UpstreamPathTemplate": "/discounts/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "LoadBalancerOptions": {
-        "Type": "LeastConnection"
-      },
-      "Key": "Discount"
+      "UpstreamPathTemplate": "/getcontactdetailbycontactid/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
     },
     {
-      "DownstreamPathTemplate": "/category",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/contact/GetContactDetailByIdAsync/{id}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7003
+          "Port": 6000
         }
       ],
-      "UpstreamPathTemplate": "/categories",
-      "UpstreamHttpMethod": [ "Get" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "1s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "UpstreamPathTemplate": "/getcontactdetailbyid/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
     },
     {
-      "DownstreamPathTemplate": "/auth/sign-in",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/contact/AddContactAsync",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7004
+          "Port": 6000
         }
       ],
-      "UpstreamPathTemplate": "/sign-in",
+      "UpstreamPathTemplate": "/addcontact",
       "UpstreamHttpMethod": [ "Post" ]
-    }
-  ],
-  "Aggregates": [
+    },
     {
-      "RouteKeys": [ "Product", "Discount" ],
-      "UpstreamPathTemplate": "/product-with-discount/{id}"
+      "DownstreamPathTemplate": "/api/contact/AddContactDetailAsync",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/addcontactdetail",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/DeleteContactAsync/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/deletecontact/{id}",
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/DeleteContacDetailtAsync/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/deletecontactdetail/{id}",
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/UpdateContactAsync",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/updatecontact",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/UpdateContactDetailAsync",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/updatecontactdetail",
+      "UpstreamHttpMethod": [ "Put" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7000"
+    "BaseUrl": "http://localhost:5000"
   }
 }

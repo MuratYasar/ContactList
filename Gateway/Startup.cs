@@ -41,13 +41,7 @@ namespace Gateway
         public void ConfigureServices(IServiceCollection services)
         {            
             services.AddControllers();
-
-            services.AddDbContext<ContactListContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
-            );
-
-            services.TryAddSingleton<ILoggerManager, LoggerManager>();
-
+            
             services.AddOcelot()
                 .AddDelegatingHandler<RequestLogger>()
                 .AddCacheManager(settings => settings.WithDictionaryHandle())
@@ -70,22 +64,24 @@ namespace Gateway
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gateway", Version = "v1" });
             });
 
-            
+            services.AddDbContext<ContactListContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
+            );
+
+            services.TryAddSingleton<ILoggerManager, LoggerManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UsePathBase("/gateway");
+            //app.UsePathBase("/gateway");
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gateway v1"));
-            }
-
-            app.UseAuthentication();
+            }            
 
             app.UseRouting();
             
@@ -105,16 +101,16 @@ namespace Gateway
 
     public class RequestLogger : DelegatingHandler
     {
-        private readonly ILogger<RequestLogger> _logger;
+        private readonly ILoggerManager _logger;
 
-        public RequestLogger(ILogger<RequestLogger> logger)
+        public RequestLogger(ILoggerManager logger)
         {
             _logger = logger;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Request [{request.Method}] - {request.RequestUri?.PathAndQuery} : {request.RequestUri?.Port}");
+            _logger.LogInfo($"Request [{request.Method}] - {request.RequestUri?.PathAndQuery} : {request.RequestUri?.Port}");
             return base.SendAsync(request, cancellationToken);
         }
     }

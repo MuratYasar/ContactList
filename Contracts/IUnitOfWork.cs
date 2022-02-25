@@ -10,7 +10,7 @@ namespace Contracts
     {
         IRepository<T> GetRepository<T>() where T : class;
 
-        Task<bool> SaveChangesAsync(bool useChangeLogFeature);
+        Task<bool> SaveChangesAsync();
 
         void Rollback();
     }
