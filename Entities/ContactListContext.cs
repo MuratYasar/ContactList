@@ -1,4 +1,5 @@
 ﻿using Entities.DataModel;
+using Entities.SeedDataConfiguration;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,8 @@ namespace Entities
             modelBuilder.Entity<ContactDetail>().ToTable("ContactDetail", "public");
             modelBuilder.Entity<Log>().ToTable("Log", "public");
             modelBuilder.Entity<Report>().ToTable("Report", "public");
-            modelBuilder.Entity<ReportStatus>().ToTable("ReportStatus", "public");
+            
+            modelBuilder.ApplyConfiguration(new ReportStatusConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
