@@ -52,5 +52,22 @@ namespace Report.API.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        [Route("UpdateReportAsync")]
+        public async Task<IActionResult> UpdateReportAsync([FromBody] ReportDtoUpdate reportDtoUpdate)
+        {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
+            var result = await _reportOperationService.UpdateReportAsync(reportDtoUpdate);
+            if (result == true)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
+
     }
 }
