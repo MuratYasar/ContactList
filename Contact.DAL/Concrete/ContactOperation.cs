@@ -23,7 +23,7 @@ namespace Contact.DAL.Concrete
             _logger = logger;
         }
 
-        public async Task<bool> AddContactAsync(ContactDtoInsert contactDtoInsert)
+        public async Task<ContactDtoInsert> AddContactAsync(ContactDtoInsert contactDtoInsert)
         {
             var entityContact = await _unitOfWork.GetRepository<Entities.DataModel.Contact>().AddReturnEntityAsync(
                 new Entities.DataModel.Contact()
@@ -56,24 +56,24 @@ namespace Contact.DAL.Concrete
                 {
                     _logger.LogInfo($"{entityContactDetail.entity.Id.ToString()} - new contact detail added for {entityContact.entity.Id.ToString()}.");
 
-                    return true;
+                    return contactDtoInsert;
                 }
                 else
                 {
                     _logger.LogError($"An error has been occurred while adding a new contact detail for the contact ({entityContact.entity.Id.ToString()}).");
 
-                    return false;
+                    return null;
                 }
             }
             else
             {
                 _logger.LogError($"An error has been occurred while adding a new contact.");
 
-                return false;
+                return null;
             }
         }
     
-        public async Task<bool> AddContactDetailAsync(ContactDetailDtoInsert contactDetailDtoInsert)
+        public async Task<ContactDetailDtoInsert> AddContactDetailAsync(ContactDetailDtoInsert contactDetailDtoInsert)
         {
             var entityContactDetail = await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().AddReturnEntityAsync(
                     new Entities.DataModel.ContactDetail()
@@ -91,13 +91,13 @@ namespace Contact.DAL.Concrete
             {
                 _logger.LogInfo($"{entityContactDetail.entity.Id.ToString()} - new contact detail added for the contact ({contactDetailDtoInsert.ContactId.ToString()}).");
 
-                return true;
+                return contactDetailDtoInsert;
             }
             else
             {
                 _logger.LogError($"An error has been occurred while adding a new contact detail for the contact ({contactDetailDtoInsert.ContactId.ToString()}).");
 
-                return false;
+                return null;
             }
         }    
 
@@ -236,9 +236,9 @@ namespace Contact.DAL.Concrete
             return await query.ToListAsync();
         }
 
-        public async Task<bool> UpdateContactAsync(ContactDtoUpdate contactDtoUpdate)
+        public async Task<ContactDtoUpdate> UpdateContactAsync(ContactDtoUpdate contactDtoUpdate)
         {
-            if (!_unitOfWork.GetRepository<Entities.DataModel.Contact>().Exist(x => x.Id == contactDtoUpdate.Id)) return false;
+            if (!_unitOfWork.GetRepository<Entities.DataModel.Contact>().Exist(x => x.Id == contactDtoUpdate.Id)) return null;
 
             var contactToUpdate = await _unitOfWork.GetRepository<Entities.DataModel.Contact>().GetByIdAsync(contactDtoUpdate.Id);
 
@@ -250,12 +250,19 @@ namespace Contact.DAL.Concrete
 
             bool result = await _unitOfWork.SaveChangesAsync();
 
-            return result;
+            if (result == true)
+            {
+                return contactDtoUpdate;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<bool> UpdateContactDetailAsync(ContactDetailDtoUpdate contactDetailDtoUpdate)
+        public async Task<ContactDetailDtoUpdate> UpdateContactDetailAsync(ContactDetailDtoUpdate contactDetailDtoUpdate)
         {
-            if (!_unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().Exist(x => x.Id == contactDetailDtoUpdate.Id)) return false;
+            if (!_unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().Exist(x => x.Id == contactDetailDtoUpdate.Id)) return null;
 
             var contactDetailToUpdate = await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().GetByIdAsync(contactDetailDtoUpdate.Id);
 
@@ -267,7 +274,14 @@ namespace Contact.DAL.Concrete
 
             bool result = await _unitOfWork.SaveChangesAsync();
 
-            return result;
+            if (result == true)
+            {
+                return contactDetailDtoUpdate;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

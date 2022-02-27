@@ -19,13 +19,13 @@ namespace Contact.DAL.Abstract
         
         Task<List<Entities.DTOs.ContactDto>> SearchByAsync(Expression<Func<Entities.DataModel.Contact, bool>> searchBy);
         
-        Task<bool> AddContactAsync(Entities.DTOs.ContactDtoInsert contactDtoInsert);
+        Task<Entities.DTOs.ContactDtoInsert> AddContactAsync(Entities.DTOs.ContactDtoInsert contactDtoInsert);
 
-        Task<bool> AddContactDetailAsync(Entities.DTOs.ContactDetailDtoInsert contactDetailDtoInsert);
+        Task<Entities.DTOs.ContactDetailDtoInsert> AddContactDetailAsync(Entities.DTOs.ContactDetailDtoInsert contactDetailDtoInsert);
 
-        Task<bool> UpdateContactAsync(Entities.DTOs.ContactDtoUpdate contactDtoUpdate);
+        Task<Entities.DTOs.ContactDtoUpdate> UpdateContactAsync(Entities.DTOs.ContactDtoUpdate contactDtoUpdate);
 
-        Task<bool> UpdateContactDetailAsync(Entities.DTOs.ContactDetailDtoUpdate contactDetailDtoUpdate);
+        Task<Entities.DTOs.ContactDetailDtoUpdate> UpdateContactDetailAsync(Entities.DTOs.ContactDetailDtoUpdate contactDetailDtoUpdate);
 
         Task<bool> DeleteContactAsync(Guid id);
 
