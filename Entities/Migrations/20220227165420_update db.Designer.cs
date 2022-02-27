@@ -3,15 +3,17 @@ using System;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Entities.Migrations
 {
     [DbContext(typeof(ContactListContext))]
-    partial class ContactListContextModelSnapshot : ModelSnapshot
+    [Migration("20220227165420_update db")]
+    partial class updatedb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,7 +248,7 @@ namespace Entities.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 2, 27, 16, 58, 21, 117, DateTimeKind.Utc).AddTicks(169))
+                        .HasDefaultValue(new DateTime(2022, 2, 27, 16, 54, 19, 824, DateTimeKind.Utc).AddTicks(5032))
                         .HasColumnName("DateCreated");
 
                     b.Property<string>("Name")
@@ -263,13 +265,13 @@ namespace Entities.Migrations
                         new
                         {
                             Id = (byte)1,
-                            DateCreated = new DateTime(2022, 2, 27, 16, 58, 21, 117, DateTimeKind.Utc).AddTicks(1079),
+                            DateCreated = new DateTime(2022, 2, 27, 16, 54, 19, 824, DateTimeKind.Utc).AddTicks(5846),
                             Name = "Hazırlanıyor"
                         },
                         new
                         {
                             Id = (byte)2,
-                            DateCreated = new DateTime(2022, 2, 27, 16, 58, 21, 117, DateTimeKind.Utc).AddTicks(1087),
+                            DateCreated = new DateTime(2022, 2, 27, 16, 54, 19, 824, DateTimeKind.Utc).AddTicks(5854),
                             Name = "Tamamlandı"
                         });
                 });

@@ -5,16 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj" />
     <ProjectReference Include="..\Report.DAL\Report.DAL.csproj" />
+    <ProjectReference Include="..\ReportBusConfigurator\ReportBusConfigurator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
