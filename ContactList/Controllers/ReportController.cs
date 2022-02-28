@@ -16,8 +16,6 @@ namespace ContactList.Controllers
     {
         private readonly ILoggerManager _logger;
 
-        private static readonly HttpClient _httpClient = new HttpClient();
-
         public ReportController(ILoggerManager logger)
         {
             _logger = logger;
