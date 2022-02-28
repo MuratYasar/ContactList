@@ -14,6 +14,6 @@ namespace ReportBusConfigurator
 
         public const string Password = "guest";
 
-        public const string ConsumerQueue = "receiver";
+        public const string ReportConsumerQueue = "report.receiver";
     }
 }

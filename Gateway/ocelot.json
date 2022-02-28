@@ -122,6 +122,18 @@
       "UpstreamHttpMethod": [ "Put" ]
     },
     {
+      "DownstreamPathTemplate": "/api/report/GetReportStatusListAsync",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7000
+        }
+      ],
+      "UpstreamPathTemplate": "/getreportstatuslist",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/report/AddReportAsync",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -131,7 +143,7 @@
         }
       ],
       "UpstreamPathTemplate": "/requestanewreport",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/report/GetReportsAsync",

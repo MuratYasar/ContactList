@@ -39,19 +39,19 @@ namespace Contact.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMassTransit(x =>
-            {
-                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
-                {
-                    config.UseHealthCheck(provider);
-                    config.Host(new Uri("rabbitmq://localhost"), h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                }));
-            });
-            services.AddMassTransitHostedService();
+            //services.AddMassTransit(x =>
+            //{
+            //    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+            //    {
+            //        config.UseHealthCheck(provider);
+            //        config.Host(new Uri("rabbitmq://localhost"), h =>
+            //        {
+            //            h.Username("guest");
+            //            h.Password("guest");
+            //        });
+            //    }));
+            //});
+            //services.AddMassTransitHostedService();
 
             services.AddDbContext<ContactListContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
@@ -59,6 +59,17 @@ namespace Contact.API
             );
 
             services.AddControllers();
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .SetIsOriginAllowed((host) => true)
+            //        .AllowCredentials());
+            //});
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contact.API", Version = "v1" });
@@ -83,7 +94,7 @@ namespace Contact.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MicroService Contact.API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseCors("CorsPolicy");
 
             app.UseRouting();            
 

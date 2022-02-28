@@ -1,4 +1,5 @@
-﻿using Entities.DTOs;
+﻿using Entities.DataModel;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Report.DAL.Abstract
 {
     public interface IReportOperation
     {
+        Task<List<ReportStatus>> GetReportStatusListAsync();
+
         Task<Entities.DataModel.Report> AddReportAsync(ReportDtoInsert reportDtoInsert);
 
         Task<List<ReportDto>> GetReportsAsync();
@@ -18,5 +21,7 @@ namespace Report.DAL.Abstract
         Task<bool> DeleteReportByIdAsync(long id);
 
         Task<bool> UpdateReportAsync(ReportDtoUpdate reportDtoUpdate);
+
+        Task<Entities.DataModel.Report> PrepareFinalReportAsync(Entities.DataModel.Report report);
     }
 }

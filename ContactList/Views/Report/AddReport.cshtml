@@ -1,0 +1,42 @@
+﻿@model Entities.DTOs.ReportDtoInsert
+@{ ViewBag.Title = "Add a Report";}
+
+<h2>Add a Report <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
+<form asp-action="AddReport" method="post">
+    <div class="form-group">
+        <label for="ReportStatusId">Report Status Name:</label>
+        <input class="form-control" name="ReportStatusId" value="1" readonly />
+    </div>
+    <div class="form-group">
+        <label for="ReportName">Report Name:</label>
+        <input class="form-control" name="ReportName" />
+    </div>
+    <div class="form-group">
+        <label for="Address">Address:</label>
+        <input class="form-control" name="Address" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <h2>Report List (Recently Added)</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>Report Status Id</th>
+                <th>Report Name</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.ReportStatusId</td>
+                <td>@Model.ReportName</td>
+                <td>@Model.Address</td>
+            </tr>
+        </tbody>
+    </table>
+}
