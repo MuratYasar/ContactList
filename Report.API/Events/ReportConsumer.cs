@@ -1,5 +1,4 @@
 ﻿using Entities.DTOs;
-using Entities.ReportConsumeModel;
 using MassTransit;
 using Newtonsoft.Json;
 using Report.DAL.Abstract;

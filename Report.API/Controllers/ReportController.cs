@@ -1,6 +1,5 @@
 ﻿using Entities.DataModel;
 using Entities.DTOs;
-using Entities.ReportConsumeModel;
 using Microsoft.AspNetCore.Mvc;
 using Report.DAL.Abstract;
 using ReportBusConfigurator;
