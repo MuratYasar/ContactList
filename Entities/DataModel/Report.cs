@@ -45,6 +45,6 @@ namespace Entities.DataModel
 
         [Column("DateCreated")]
         [DataType(DataType.Date)]
-        public DateTime DateCreated { get; set; } = System.DateTime.UtcNow;
+        public DateTime DateCreated { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ReportBusConfigurator
 {
-    public class BusConfigurator
+    public static class BusConfigurator
     {
         public static IBusControl ConfigureBus(Action<IRabbitMqBusFactoryConfigurator> registrationAction = null)
         {

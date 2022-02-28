@@ -3,6 +3,7 @@ using Report.API.Events;
 using ReportBusConfigurator;
 using System;
 using System.Threading.Tasks;
+using GreenPipes;
 
 namespace ReportConsumerConsole
 {
@@ -12,14 +13,24 @@ namespace ReportConsumerConsole
         {
             var bus = BusConfigurator.ConfigureBus(factory =>
             {
-                factory.ReceiveEndpoint(RabbitMqConstants.ConsumerQueue, endpoint =>
+                factory.ReceiveEndpoint(RabbitMqConstants.ReportConsumerQueue, endpoint =>
                 {
                     endpoint.Consumer<ReportConsumer>();
+                    endpoint.UseCircuitBreaker(cb =>
+                    {
+                        cb.TrackingPeriod = TimeSpan.FromMinutes(1);
+                        cb.TripThreshold = 15;
+                        cb.ActiveThreshold = 10;
+                        cb.ResetInterval = TimeSpan.FromMinutes(5);
+                    });
                 });
             });
 
             await bus.StartAsync();
-            await Task.Run(() => Console.ReadLine());
+            await Task.Run(() => {
+                Console.WriteLine("Listening for report commands..... Press enter to exit");
+                Console.ReadLine();
+            });
             await bus.StopAsync();
         }
     }

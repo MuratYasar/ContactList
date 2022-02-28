@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.DataModel;
 using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Report.DAL.Abstract;
@@ -19,6 +20,13 @@ namespace Report.DAL.Concrete
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+        }
+
+        public async Task<List<ReportStatus>> GetReportStatusListAsync()
+        {
+            var queryReportStatus = _unitOfWork.GetRepository<Entities.DataModel.ReportStatus>().Query().AsNoTracking();
+
+            return await queryReportStatus.ToListAsync();
         }
 
         public async Task<Entities.DataModel.Report> AddReportAsync(ReportDtoInsert reportDtoInsert)
@@ -60,7 +68,7 @@ namespace Report.DAL.Concrete
 
             return result;
         }
-
+        
         public async Task<ReportDto> GetReportByIdAsync(long id)
         {
             var queryReport = _unitOfWork.GetRepository<Entities.DataModel.Report>().Query().AsNoTracking().Where(x => x.Id == id);
@@ -127,6 +135,48 @@ namespace Report.DAL.Concrete
             bool result = await _unitOfWork.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task<Entities.DataModel.Report> PrepareFinalReportAsync(Entities.DataModel.Report report)
+        {
+            if (!_unitOfWork.GetRepository<Entities.DataModel.Report>().Exist(x => x.Id == report.Id)) return null;
+
+            var reportEntityToUpdate = await _unitOfWork.GetRepository<Entities.DataModel.Report>().GetByIdAsync(report.Id);
+
+
+            var queryContact = _unitOfWork.GetRepository<Entities.DataModel.Contact>().Query().AsNoTracking();
+            var queryContactDetail = _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().Query().AsNoTracking();
+
+            var contactCountQuery = from contact in queryContact
+                                    join contactDetail in queryContactDetail on contact.Id equals contactDetail.ContactId
+                                    where contactDetail.Address.Equals(report.Address)
+                                    select new { contact.Id } into x
+                                    group x by new { x.Id } into g
+                                    select new
+                                    {
+                                        Count = g.Select(x => x.Id).Count()
+                                    };
+
+            var phoneCountQuery = from contact in queryContact
+                                  join contactDetail in queryContactDetail on contact.Id equals contactDetail.ContactId
+                                  where contactDetail.Address.Equals(report.Address)
+                                  select new { contact.Id } into x
+                                  group x by new { x.Id } into g
+                                  select new
+                                  {
+                                      Count = g.Select(x => x.Id).Count()
+                                  };
+
+            reportEntityToUpdate.ReportStatusId = 2;
+            reportEntityToUpdate.ContactCount = contactCountQuery.FirstOrDefault().Count;
+            reportEntityToUpdate.PhoneRecordCount = await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().Query().AsNoTracking().Where(x => x.Address.Equals(report.Address)).CountAsync();
+            reportEntityToUpdate.DateCreated = DateTime.UtcNow;
+
+            var updatedEntity = await _unitOfWork.GetRepository<Entities.DataModel.Report>().UpdateReturnEntityAsync(reportEntityToUpdate);
+
+            bool result = await _unitOfWork.SaveChangesAsync();
+
+            return updatedEntity.entity;
         }
     }
 }

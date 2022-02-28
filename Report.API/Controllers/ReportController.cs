@@ -1,4 +1,5 @@
-﻿using Entities.DTOs;
+﻿using Entities.DataModel;
+using Entities.DTOs;
 using Entities.ReportConsumeModel;
 using Microsoft.AspNetCore.Mvc;
 using Report.DAL.Abstract;
@@ -21,17 +22,33 @@ namespace Report.API.Controllers
             _reportOperationService = reportOperationService;
         }
 
+        [HttpGet]
+        [Route("GetReportStatusListAsync")]
+        public async Task<List<ReportStatus>> GetReportStatusListAsync()
+        {
+            return await _reportOperationService.GetReportStatusListAsync();
+        }
+
         [HttpPost]
         [Route("AddReportAsync")]
         public async Task<IActionResult> AddReportAsync(ReportDtoInsert reportDtoInsert)
         {
-            var reportInserted = _reportOperationService.AddReportAsync(reportDtoInsert);
+            var reportInserted = await _reportOperationService.AddReportAsync(reportDtoInsert);
 
             var bus = BusConfigurator.ConfigureBus();
-            var sendToUri = new Uri($"{RabbitMqConstants.RabbitMqUri}/{RabbitMqConstants.ConsumerQueue}");
+            var sendToUri = new Uri($"{RabbitMqConstants.RabbitMqUri}/{RabbitMqConstants.ReportConsumerQueue}");
             var endPoint = await bus.GetSendEndpoint(sendToUri);
-            await endPoint.Send<IReportConsumer>(reportDtoInsert);
-            return Ok("Your report request has been received ");
+            await endPoint.Send<Entities.DataModel.Report>(reportInserted);
+            return Ok(reportDtoInsert);
+        }
+
+        [HttpPost]
+        [Route("PrepareFinalReport")]
+        public async Task<IActionResult> PrepareFinalReport(Entities.DataModel.Report report)
+        {
+            var result = await _reportOperationService.PrepareFinalReportAsync(report);
+            
+            return Ok(result);
         }
 
         [HttpGet]
@@ -68,6 +85,5 @@ namespace Report.API.Controllers
                 return BadRequest(result);
             }
         }
-
     }
 }

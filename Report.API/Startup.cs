@@ -56,8 +56,17 @@ namespace Report.API
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ContactListContext).Assembly.FullName))
             );
+                        
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .SetIsOriginAllowed((host) => true)
+            //        .AllowCredentials());
+            //});
 
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report.API", Version = "v1" });
@@ -70,6 +79,8 @@ namespace Report.API
             services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
             services.TryAddScoped<IReportOperation, ReportOperation>();
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,7 +93,7 @@ namespace Report.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Report.API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseCors("CorsPolicy");
 
             app.UseRouting();
 

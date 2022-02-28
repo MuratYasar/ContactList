@@ -99,14 +99,8 @@ namespace Contact.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _contactOperationService.UpdateContactAsync(contactDtoUpdate);
-            if (result == true)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+            
+            return Ok(result);
         }
 
         [HttpPut]
@@ -116,14 +110,8 @@ namespace Contact.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _contactOperationService.UpdateContactDetailAsync(contactDetailDtoUpdate);
-            if (result == true)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            return Ok(result);
         }
 
     }

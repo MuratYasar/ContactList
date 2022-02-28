@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Entities.DTOs.ReportDto>
+
+@{
+    ViewData["Title"] = "Report Page";
+}
+
+<h2>All Reports</h2>
+<a asp-action="AddReport" class="btn btn-sm btn-primary">Add Report</a>
+<a asp-action="Index" class="btn btn-sm btn-secondary">Get Report List</a>
+
+
+@if (Model != null)
+{
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Report Statu Name</th>
+                <th>Report Name</th>
+                <th>Address</th>
+                <th>Contact Count</th>
+                <th>Phone Record Count</th>
+                <th>Date Requested</th>
+                <th>Date Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.ReportStatusName</td>
+                    <td>@r.ReportName</td>
+                    <td>@r.Address</td>
+                    <td>@r.ContactCount</td>
+                    <td>@r.PhoneRecordCount</td>
+                    <td>@r.DateRequested</td>
+                    <td>@r.DateCreated</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model == null)
+{
+    <br />
+    <br />
+    <span class="text-danger fw-bold">There is no report info to display for.</span>
+}

@@ -1,0 +1,25 @@
+﻿@model Entities.DTOs.ContactDto
+@{ ViewBag.Title = "Update a Contact";}
+
+<h2>Update a Contact <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
+<form asp-action="UpdateContact" method="post">
+    <div class="form-group">
+        <label asp-for="Id"></label>
+        <input class="form-control" asp-for="Id" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input class="form-control" asp-for="LastName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CompanyName"></label>
+        <input class="form-control" asp-for="CompanyName" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+    </div>
+</form>
