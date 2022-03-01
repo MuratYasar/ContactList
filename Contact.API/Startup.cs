@@ -39,20 +39,6 @@ namespace Contact.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMassTransit(x =>
-            //{
-            //    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
-            //    {
-            //        config.UseHealthCheck(provider);
-            //        config.Host(new Uri("rabbitmq://localhost"), h =>
-            //        {
-            //            h.Username("guest");
-            //            h.Password("guest");
-            //        });
-            //    }));
-            //});
-            //services.AddMassTransitHostedService();
-
             services.AddDbContext<ContactListContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ContactListContext).Assembly.FullName))
@@ -64,6 +50,7 @@ namespace Contact.API
             //{
             //    options.AddPolicy("CorsPolicy",
             //        builder => builder
+            //        .WithOrigins("https://localhost:5001", "https://localhost:5000")
             //        .AllowAnyMethod()
             //        .AllowAnyHeader()
             //        .SetIsOriginAllowed((host) => true)

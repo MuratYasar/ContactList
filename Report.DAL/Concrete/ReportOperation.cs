@@ -24,7 +24,7 @@ namespace Report.DAL.Concrete
 
         public async Task<List<ReportStatus>> GetReportStatusListAsync()
         {
-            var queryReportStatus = _unitOfWork.GetRepository<Entities.DataModel.ReportStatus>().Query().AsNoTracking();
+            var queryReportStatus = _unitOfWork.GetRepository<Entities.DataModel.ReportStatus>().Query().AsNoTracking().OrderByDescending(x => x.Id);
 
             return await queryReportStatus.ToListAsync();
         }

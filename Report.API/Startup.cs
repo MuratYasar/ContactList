@@ -56,7 +56,7 @@ namespace Report.API
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ContactListContext).Assembly.FullName))
             );
-                        
+
             //services.AddCors(options =>
             //{
             //    options.AddPolicy("CorsPolicy",
