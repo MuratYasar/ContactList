@@ -1,11 +1,15 @@
 ﻿using Contracts;
 using Entities.DataModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Moq;
+using Report.API;
 using Report.API.Controllers;
 using Report.DAL.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -38,7 +42,7 @@ namespace MyContactList.ReportMicroService.UnitTests
         }
 
         [Fact]
-        public async Task GetReportStatusListAsync_Returns_The_List_Of_ReportStatus_Obejct()
+        public async Task GetReportStatusListAsync_ReturnsTheListOfReportStatus_Expected2Rows()
         {
             // Arrange
             var expectedItems = CreateRandomReportStatusList();
@@ -48,14 +52,17 @@ namespace MyContactList.ReportMicroService.UnitTests
             var controller = new ReportController(repositoryStub.Object);
 
             // Act
-            var result = await controller.GetReportStatusListAsync();
+            var actionResult = await controller.GetReportStatusListAsync();
 
             // Assert
-            Assert.Equal(2, result.Count);
+            var result = actionResult.Result as OkObjectResult;
+            var returnRows = result.Value as IEnumerable<ReportStatus>;
+            Assert.Equal(expectedItems, returnRows);
+            Assert.Equal(expectedItems.Count, returnRows.Count());
         }
 
         [Fact]
-        public async Task GetReportStatusListAsync_Returns_The_List_Of_ReportStatus_NotNul()
+        public async Task GetReportStatusListAsync_ReturnsTheListOfReportStatus_ExpectedNotNulResult()
         {
             // Arrange
             var expectedItems = CreateRandomReportStatusList();
@@ -72,7 +79,7 @@ namespace MyContactList.ReportMicroService.UnitTests
         }
 
         [Fact]
-        public async Task GetReportStatusListAsync_Returns_The_ReportStatus_Id_1()
+        public async Task GetReportStatusListAsync_ReturnsTheReportStatusId_Expected1AsIdNumber()
         {
             // Arrange
             var expectedItems = CreateRandomReportStatusList();
@@ -82,14 +89,16 @@ namespace MyContactList.ReportMicroService.UnitTests
             var controller = new ReportController(repositoryStub.Object);
 
             // Act
-            var result = await controller.GetReportStatusListAsync();
+            var actionResult = await controller.GetReportStatusListAsync();
 
-            // Assert            
-            Assert.Equal(expected: 1, actual: result[0].Id);
+            // Assert
+            var result = actionResult.Result as OkObjectResult;
+            var returnRows = result.Value as IEnumerable<ReportStatus>;
+            Assert.Equal(expected: 1, actual: returnRows.ToList()[0].Id);
         }
 
         [Fact]
-        public async Task GetReportStatusListAsync_Returns_The_ReportStatus_Id_2()
+        public async Task GetReportStatusListAsync_ReturnsTheReportStatusId_Expected2AsIdNumber()
         {
             // Arrange
             var expectedItems = CreateRandomReportStatusList();
@@ -99,10 +108,12 @@ namespace MyContactList.ReportMicroService.UnitTests
             var controller = new ReportController(repositoryStub.Object);
 
             // Act
-            var result = await controller.GetReportStatusListAsync();
+            var actionResult = await controller.GetReportStatusListAsync();
 
             // Assert            
-            Assert.Equal(expected: 2, actual: result[1].Id);
+            var result = actionResult.Result as OkObjectResult;
+            var returnRows = result.Value as IEnumerable<ReportStatus>;
+            Assert.Equal(expected: 1, actual: returnRows.ToList()[0].Id);
         }
     }
 }

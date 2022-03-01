@@ -45,6 +45,8 @@ namespace ContactList.Controllers
         [HttpPost]
         public async Task<IActionResult> AddContact(ContactDtoInsert contactDtoInsert)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             ContactDtoInsert result = new ContactDtoInsert();
 
             using (var httpClient = new HttpClient())
@@ -70,6 +72,8 @@ namespace ContactList.Controllers
         [HttpPost]
         public async Task<IActionResult> AddContactDetail(ContactDetailDtoInsert contactDetailDtoInsert)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             ContactDetailDtoInsert result = new ContactDetailDtoInsert();
 
             using (var httpClient = new HttpClient())
@@ -106,6 +110,8 @@ namespace ContactList.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateContact(ContactDtoUpdate contactDtoUpdate)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             ContactDtoUpdate result = new ContactDtoUpdate();
 
             using (var httpClient = new HttpClient())
@@ -141,6 +147,8 @@ namespace ContactList.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateContactDetail(ContactDetailDtoUpdate contactDetailDtoUpdate)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             ContactDetailDtoUpdate result = new ContactDetailDtoUpdate();
 
             using (var httpClient = new HttpClient())
@@ -160,6 +168,8 @@ namespace ContactList.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteContact(Guid id)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             bool result = false;
 
             using (var httpClient = new HttpClient())
@@ -188,6 +198,8 @@ namespace ContactList.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteContactDetail(long id)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             bool result = false;
 
             using (var httpClient = new HttpClient())

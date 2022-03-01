@@ -23,15 +23,22 @@ namespace Report.API.Controllers
 
         [HttpGet]
         [Route("GetReportStatusListAsync")]
-        public async Task<List<ReportStatus>> GetReportStatusListAsync()
+        public async Task<ActionResult<List<ReportStatus>>> GetReportStatusListAsync()
         {
-            return await _reportOperationService.GetReportStatusListAsync();
+            var reportStatusValues = await _reportOperationService.GetReportStatusListAsync();
+
+            if (!reportStatusValues.Any())
+                return NotFound();
+
+            return Ok(reportStatusValues);
         }
 
         [HttpPost]
         [Route("AddReportAsync")]
         public async Task<IActionResult> AddReportAsync(ReportDtoInsert reportDtoInsert)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             var reportInserted = await _reportOperationService.AddReportAsync(reportDtoInsert);
 
             var bus = BusConfigurator.ConfigureBus();
@@ -45,6 +52,8 @@ namespace Report.API.Controllers
         [Route("PrepareFinalReport")]
         public async Task<IActionResult> PrepareFinalReport(Entities.DataModel.Report report)
         {
+            if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
+
             var result = await _reportOperationService.PrepareFinalReportAsync(report);
             
             return Ok(result);
@@ -52,9 +61,14 @@ namespace Report.API.Controllers
 
         [HttpGet]
         [Route("GetReportsAsync")]
-        public async Task<List<ReportDto>> GetReportsAsync()
+        public async Task<ActionResult<List<ReportDto>>> GetReportsAsync()
         {
-            return await _reportOperationService.GetReportsAsync();
+            var reportList = await _reportOperationService.GetReportsAsync();
+
+            if (!reportList.Any())
+                return NotFound();
+
+            return Ok(reportList);
         }
 
         [HttpDelete]
