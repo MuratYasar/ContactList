@@ -11,7 +11,14 @@
       ],
       "UpstreamPathTemplate": "/getallcontact",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 15 }
+      "FileCacheOptions": { "TtlSeconds": 15 },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/GetContactByIdAsync/{id}",
@@ -155,7 +162,14 @@
         }
       ],
       "UpstreamPathTemplate": "/getreportlist",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
     },
     {
       "DownstreamPathTemplate": "/api/report/DeleteReportByIdAsync/{id}",
