@@ -22,9 +22,19 @@ namespace Contact.API.Controllers
 
         [HttpGet]
         [Route("GetAllContactsAsync")]
-        public async Task<ICollection<ContactDto>> GetAllContactsAsync()
+        //public async Task<ICollection<ContactDto>> GetAllContactsAsync()
+        public async Task<IActionResult> GetAllContactsAsync()
         {
-            return await _contactOperationService.GetAllContactsAsync();
+            var result = await _contactOperationService.GetAllContactsAsync();
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpGet]

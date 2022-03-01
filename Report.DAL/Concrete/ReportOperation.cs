@@ -157,18 +157,8 @@ namespace Report.DAL.Concrete
                                         Count = g.Select(x => x.Id).Count()
                                     };
 
-            var phoneCountQuery = from contact in queryContact
-                                  join contactDetail in queryContactDetail on contact.Id equals contactDetail.ContactId
-                                  where contactDetail.Address.Equals(report.Address)
-                                  select new { contact.Id } into x
-                                  group x by new { x.Id } into g
-                                  select new
-                                  {
-                                      Count = g.Select(x => x.Id).Count()
-                                  };
-
             reportEntityToUpdate.ReportStatusId = 2;
-            reportEntityToUpdate.ContactCount = contactCountQuery.FirstOrDefault().Count;
+            reportEntityToUpdate.ContactCount = contactCountQuery.Count();
             reportEntityToUpdate.PhoneRecordCount = await _unitOfWork.GetRepository<Entities.DataModel.ContactDetail>().Query().AsNoTracking().Where(x => x.Address.Equals(report.Address)).CountAsync();
             reportEntityToUpdate.DateCreated = DateTime.UtcNow;
 
