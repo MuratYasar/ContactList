@@ -13,7 +13,7 @@ namespace Entities
         public ContactListContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ContactListContext>();
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true; User Id=postgres;Password=muratyasar;Pooling=true;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true; User ID=postgres;Password=muratyasar;Pooling=true;");
 
             return new ContactListContext(optionsBuilder.Options);
         }

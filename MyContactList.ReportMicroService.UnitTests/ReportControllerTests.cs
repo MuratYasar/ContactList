@@ -148,7 +148,7 @@ namespace MyContactList.ReportMicroService.UnitTests
         }
 
         [Fact]
-        public async Task GetReportStatusListAsync_ReturnsTheListOfReportStatus_ExpectedNotNulResult()
+        public async Task GetReportStatusListAsync_ReturnsTheListOfReportStatus_ExpectedNotNullResult()
         {
             // Arrange
             var expectedItems = CreateRandomReportStatusList();
@@ -267,7 +267,7 @@ namespace MyContactList.ReportMicroService.UnitTests
         }
 
         [Fact]
-        public async Task GetReportsAsync_ReturnsTheListOfReports_ExpectedNotNulResult()
+        public async Task GetReportsAsync_ReturnsTheListOfReports_ExpectedNotNullResult()
         {
             // Arrange
             var expectedItems = CreateRandomReportDtoList();
@@ -319,7 +319,7 @@ namespace MyContactList.ReportMicroService.UnitTests
             var response = await client.SendAsync(request);
 
             // Assert
-            Assert.Equal(expected: 400, actual: ((int)response.StatusCode));
+            Assert.Equal(expected: 404, actual: ((int)response.StatusCode));
         }
 
         [Fact]
@@ -339,7 +339,7 @@ namespace MyContactList.ReportMicroService.UnitTests
             var response = await client.SendAsync(request);
 
             // Assert
-            Assert.Equal(expected: 404, actual: ((int)response.StatusCode));
+            Assert.Equal(expected: 400, actual: ((int)response.StatusCode));
         }
 
         [Fact]
@@ -379,7 +379,7 @@ namespace MyContactList.ReportMicroService.UnitTests
             var response = await client.SendAsync(request);
 
             // Assert
-            Assert.Equal(expected: 404, actual: ((int)response.StatusCode));
+            Assert.Equal(expected: 400, actual: ((int)response.StatusCode));
         }
 
         [Fact]
