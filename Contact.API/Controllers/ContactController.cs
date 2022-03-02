@@ -85,7 +85,7 @@ namespace Contact.API.Controllers
 
         [HttpPost]
         [Route("AddContactDetailAsync")]
-        public async Task<IActionResult> AddContactAsync([FromBody] ContactDetailDtoInsert contactDetailDtoInsert)
+        public async Task<IActionResult> AddContactDetailAsync([FromBody] ContactDetailDtoInsert contactDetailDtoInsert)
         {
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 

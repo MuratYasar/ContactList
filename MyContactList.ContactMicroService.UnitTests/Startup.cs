@@ -1,25 +1,25 @@
-﻿using Contracts;
-using Entities;
-using Entities.Repository;
-using Entities.UnitOfWork;
-using Logging;
-using Microsoft.AspNetCore.Builder;
+﻿using Contact.DAL.Abstract;
+using Contact.DAL.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Report.DAL.Abstract;
-using Report.DAL.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Entities;
+using Contracts;
+using Entities.UnitOfWork;
+using Entities.Repository;
+using Logging;
 
-namespace MyContactList.ReportMicroService.UnitTests
+namespace MyContactList.ContactMicroService.UnitTests
 {
     public class Startup
     {
@@ -36,7 +36,7 @@ namespace MyContactList.ReportMicroService.UnitTests
                 opt.UseNpgsql("User ID=test;Password=test;Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true;Pooling=true;")
             );
 
-            services.AddControllers().AddApplicationPart(Assembly.Load("Report.API")).AddControllersAsServices();
+            services.AddControllers().AddApplicationPart(Assembly.Load("Contact.API")).AddControllersAsServices();
 
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -44,7 +44,7 @@ namespace MyContactList.ReportMicroService.UnitTests
             services.TryAddScoped<DbContext, ContactListContext>();
             services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
-            services.TryAddScoped<IReportOperation, ReportOperation>();
+            services.TryAddScoped<IContactOperation, ContactOperation>();
         }
 
         public void Configure(IApplicationBuilder app)
