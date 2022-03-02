@@ -102,6 +102,6 @@ By clicking on the report link in the UI application, we can view the all report
 ![14-NewReport](https://user-images.githubusercontent.com/3499585/156455420-ad04a4ce-02f0-476f-bcfe-7dff0ec02123.png)
 
 ## 
-I hope I was able to help those who want to review this type of application as a whole.
+I hope, I was able to help those who want to review this type of application as a whole.
 
 ## Thank you.
