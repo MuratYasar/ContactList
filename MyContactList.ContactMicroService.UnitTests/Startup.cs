@@ -33,7 +33,7 @@ namespace MyContactList.ContactMicroService.UnitTests
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ContactListContext>(opt =>
-                opt.UseNpgsql("User ID=test;Password=test;Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true;Pooling=true;")
+                opt.UseNpgsql("User ID=postgres;Password=muratyasar;Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true;Pooling=true;")
             );
 
             services.AddControllers().AddApplicationPart(Assembly.Load("Contact.API")).AddControllersAsServices();

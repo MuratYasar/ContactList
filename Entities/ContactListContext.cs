@@ -27,7 +27,7 @@ namespace Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true; User Id=test;Password=test;Pooling=true;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ContactListDB;Integrated Security=true; User ID=postgres;Password=muratyasar;Pooling=true;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
