@@ -8,5 +8,5 @@ I haven't paid much attention to this sort of thing, instead try to understand h
 
 You can see the visual studio solution folder structure in below image.
 
-![image](https://user-images.githubusercontent.com/3499585/156270010-826497e7-891e-4e9f-af5e-b346f16e94c9.png)
+![image](https://user-images.githubusercontent.com/3499585/156371042-e19fc19a-81a1-4d7b-85fe-cb8ebe4ebb03.png)
 
