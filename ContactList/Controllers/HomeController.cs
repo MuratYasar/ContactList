@@ -30,12 +30,16 @@ namespace ContactList.Controllers
             {
                 using (var response = await httpClient.GetAsync("http://localhost:5000/getallcontact"))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    contactList = JsonConvert.DeserializeObject<List<ContactDto>>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+
+                        contactList = JsonConvert.DeserializeObject<List<ContactDto>>(apiResponse);
+
+                        _logger.LogInfo($"List of contacts has been displayed from client UI.");
+                    }
                 }
             }
-
-            _logger.LogInfo($"List of contacts has been displayed from client UI.");
 
             return View(contactList);
         }
@@ -55,8 +59,11 @@ namespace ContactList.Controllers
 
                 using (var response = await httpClient.PostAsync("http://localhost:5000/addcontact", content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ContactDtoInsert>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ContactDtoInsert>(apiResponse);
+                    }
                 }
             }
             return View(result);
@@ -82,8 +89,11 @@ namespace ContactList.Controllers
 
                 using (var response = await httpClient.PostAsync("http://localhost:5000/addcontactdetail", content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ContactDetailDtoInsert>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ContactDetailDtoInsert>(apiResponse);
+                    }
                 }
             }
             return RedirectToAction("Index", "Home");
@@ -97,12 +107,15 @@ namespace ContactList.Controllers
             {
                 using (var response = await httpClient.GetAsync("http://localhost:5000/getcontactbyid/" + id))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ContactDto>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ContactDto>(apiResponse);
+
+                        _logger.LogInfo($"{id.ToString()} - contact has been displayed from client UI.");
+                    }
                 }
             }
-
-            _logger.LogInfo($"{id.ToString()} - contact has been displayed from client UI.");
 
             return View(result);
         }
@@ -120,8 +133,11 @@ namespace ContactList.Controllers
 
                 using (var response = await httpClient.PutAsync("http://localhost:5000/updatecontact", content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ContactDtoUpdate>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ContactDtoUpdate>(apiResponse);
+                    }
                 }
             }
 
@@ -136,8 +152,11 @@ namespace ContactList.Controllers
             {
                 using (var response = await httpClient.GetAsync("http://localhost:5000/getcontactdetailbyid/" + id))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ContactDetailDto>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ContactDetailDto>(apiResponse);
+                    }
                 }
             }
 
@@ -157,8 +176,11 @@ namespace ContactList.Controllers
 
                 using (var response = await httpClient.PutAsync("http://localhost:5000/updatecontactdetail", content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ContactDetailDtoUpdate>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ContactDetailDtoUpdate>(apiResponse);
+                    }
                 }
             }
 
@@ -176,8 +198,11 @@ namespace ContactList.Controllers
             {
                 using (var response = await httpClient.DeleteAsync("http://localhost:5000/deletecontact/" + id))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<bool>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<bool>(apiResponse);
+                    }
                 }
             }
 
@@ -206,8 +231,11 @@ namespace ContactList.Controllers
             {
                 using (var response = await httpClient.DeleteAsync("http://localhost:5000/deletecontactdetail/" + id))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<bool>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<bool>(apiResponse);
+                    }
                 }
             }
 

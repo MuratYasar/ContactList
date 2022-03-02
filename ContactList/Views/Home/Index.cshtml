@@ -21,71 +21,74 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var r in Model)
+        @if (Model != null && Model.Count() > 0)
         {
-            <tr>
-                <td>@r.Id</td>
-                <td>@r.Name</td>
-                <td>@r.LastName</td>
-                <td>@r.CompanyName</td>
-                <td>@r.DateCreated</td>
-                <td>
-                    <a asp-action="UpdateContact" asp-route-id="@r.Id">
-                        <img src="/icon/edit.gif" style="width:24px;" />
-                    </a>
-                </td>
-                <td>
-                    <form asp-action="DeleteContact" method="post" asp-route-id="@r.Id">
-                        <input type="hidden" value="@r.Id" name="ContactId" />
-                        <input type="image" src="/icon/delete.png" style="width:24px;" />
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="d-flex justify-content-start">
-                        <a asp-action="AddContactDetail" asp-route-id="@r.Id" class="btn btn-sm btn-primary">Add Contact Detail</a>
-                    </div>
-                </td>
-                <td colspan="6">
-                    <div class="d-flex justify-content-end">
-                        <table class="table-bordered table-primary">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Telephone Number</th>
-                                    <th>EMail Address</th>
-                                    <th>Address</th>
-                                    <th>DateCreated</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            @foreach (var item in r.Details)
-                            {
-                                <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.TelephoneNumber</td>
-                                    <td>@item.EMailAddress</td>
-                                    <td>@item.Address</td>
-                                    <td>@item.DateCreated</td>
-                                    <td>
-                                        <a asp-action="UpdateContactDetail" asp-route-id="@item.Id">
-                                            <img src="/icon/edit.gif" style="width:24px;" />
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form asp-action="DeleteContactDetail" method="post" asp-route-id="@item.Id">
-                                            <input type="hidden" value="@item.Id" name="ContactDetailId" />
-                                            <input type="image" src="/icon/delete.png" style="width:24px;" onclick="return confirm('Are you sure you want to delete this item?');" />
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                </td>
-            </tr>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.Name</td>
+                    <td>@r.LastName</td>
+                    <td>@r.CompanyName</td>
+                    <td>@r.DateCreated</td>
+                    <td>
+                        <a asp-action="UpdateContact" asp-route-id="@r.Id">
+                            <img src="/icon/edit.gif" style="width:24px;" />
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteContact" method="post" asp-route-id="@r.Id">
+                            <input type="hidden" value="@r.Id" name="ContactId" />
+                            <input type="image" src="/icon/delete.png" style="width:24px;" />
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex justify-content-start">
+                            <a asp-action="AddContactDetail" asp-route-id="@r.Id" class="btn btn-sm btn-primary">Add Contact Detail</a>
+                        </div>
+                    </td>
+                    <td colspan="6">
+                        <div class="d-flex justify-content-end">
+                            <table class="table-bordered table-primary">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Telephone Number</th>
+                                        <th>EMail Address</th>
+                                        <th>Address</th>
+                                        <th>DateCreated</th>
+                                        <th>Update</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in r.Details)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.TelephoneNumber</td>
+                                        <td>@item.EMailAddress</td>
+                                        <td>@item.Address</td>
+                                        <td>@item.DateCreated</td>
+                                        <td>
+                                            <a asp-action="UpdateContactDetail" asp-route-id="@item.Id">
+                                                <img src="/icon/edit.gif" style="width:24px;" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form asp-action="DeleteContactDetail" method="post" asp-route-id="@item.Id">
+                                                <input type="hidden" value="@item.Id" name="ContactDetailId" />
+                                                <input type="image" src="/icon/delete.png" style="width:24px;" onclick="return confirm('Are you sure you want to delete this item?');" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

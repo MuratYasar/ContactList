@@ -28,12 +28,15 @@ namespace ContactList.Controllers
             {
                 using (var response = await httpClient.GetAsync("http://localhost:5000/getreportlist"))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    reportList = JsonConvert.DeserializeObject<List<ReportDto>>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        reportList = JsonConvert.DeserializeObject<List<ReportDto>>(apiResponse);
+
+                        _logger.LogInfo($"List of reports has been displayed from client UI.");
+                    }
                 }
             }
-
-            _logger.LogInfo($"List of reports has been displayed from client UI.");
 
             return View(reportList);
         }
@@ -54,8 +57,11 @@ namespace ContactList.Controllers
 
                 using (var response = await httpClient.PostAsync("http://localhost:5000/requestanewreport", content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ReportDtoInsert>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<ReportDtoInsert>(apiResponse);
+                    }
                 }
             }
 
