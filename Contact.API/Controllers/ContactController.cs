@@ -22,30 +22,51 @@ namespace Contact.API.Controllers
 
         [HttpGet]
         [Route("GetAllContactsAsync")]
-        public async Task<ICollection<ContactDto>> GetAllContactsAsync()
+        //public async Task<ICollection<ContactDto>> GetAllContactsAsync()
+        public async Task<IActionResult> GetAllContactsAsync()
         {
-            return await _contactOperationService.GetAllContactsAsync();
+            var result = await _contactOperationService.GetAllContactsAsync();
+
+            if (!result.Any())
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetContactByIdAsync/{id}")]
-        public async Task<ContactDto> GetContactByIdAsync(Guid id)
+        public async Task<IActionResult> GetContactByIdAsync(Guid id)
         {
-            return await _contactOperationService.GetContactByIdAsync(id);
+            var result = await _contactOperationService.GetContactByIdAsync(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetContactDetailByContactIdAsync/{id}")]
-        public async Task<ICollection<ContactDetail>> GetContactDetailByContactIdAsync(Guid id)
+        public async Task<ActionResult<ICollection<ContactDetail>>> GetContactDetailByContactIdAsync(Guid id)
         {
-            return await _contactOperationService.GetContactDetailByContactIdAsync(id);
+            var result = await _contactOperationService.GetContactDetailByContactIdAsync(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetContactDetailByIdAsync/{id}")]
-        public async Task<ContactDetail> GetContactDetailByIdAsync(long id)
+        public async Task<IActionResult> GetContactDetailByIdAsync(long id)
         {
-            return await _contactOperationService.GetContactDetailByIdAsync(id);
+            var result = await _contactOperationService.GetContactDetailByIdAsync(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -55,6 +76,9 @@ namespace Contact.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _contactOperationService.AddContactAsync(contactDtoInsert);
+
+            if (result == null)
+                return NotFound();
 
             return Ok(result);
         }
@@ -67,6 +91,9 @@ namespace Contact.API.Controllers
 
             var result = await _contactOperationService.AddContactDetailAsync(contactDetailDtoInsert);
 
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -77,6 +104,9 @@ namespace Contact.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _contactOperationService.DeleteContacDetailtAsync(id);
+
+            if (result == false)
+                return NotFound();
 
             return Ok(result);
         }
@@ -89,6 +119,9 @@ namespace Contact.API.Controllers
 
             var result = await _contactOperationService.DeleteContactAsync(id);
 
+            if (result == false)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -99,7 +132,10 @@ namespace Contact.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _contactOperationService.UpdateContactAsync(contactDtoUpdate);
-            
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -110,6 +146,9 @@ namespace Contact.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _contactOperationService.UpdateContactDetailAsync(contactDetailDtoUpdate);
+
+            if (result == null)
+                return NotFound();
 
             return Ok(result);
         }
