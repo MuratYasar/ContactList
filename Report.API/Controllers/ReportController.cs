@@ -79,6 +79,9 @@ namespace Report.API.Controllers
 
             var result = await _reportOperationService.DeleteReportByIdAsync(id);
 
+            if (result == false)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -89,14 +92,11 @@ namespace Report.API.Controllers
             if (!ModelState.IsValid) return BadRequest(new { error = ModelState.Values.SelectMany(x => x.Errors).ToList() });
 
             var result = await _reportOperationService.UpdateReportAsync(reportDtoUpdate);
-            if (result == true)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
+
+            if (result == false)
+                return NotFound();
+
+            return Ok(result);
         }
     }
 }
