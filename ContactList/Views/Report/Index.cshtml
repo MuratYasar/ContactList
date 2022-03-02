@@ -9,7 +9,7 @@
 <a asp-action="Index" class="btn btn-sm btn-secondary">Get Report List</a>
 
 
-@if (Model != null)
+@if (Model != null && Model.Count() > 0)
 {
     <table class="table table-sm table-striped table-bordered m-2">
         <thead>
