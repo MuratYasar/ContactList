@@ -49,6 +49,8 @@ More control over methods and return values in the UI part too.
 
 Better UI design of course.
 
+I should mention about not forgetting dockerization as well.
+
 And others that I'm not considering right now.
 #
 Below, I will try to explain how to run the application with screenshots and simple data entries to test its operation. I think that if it is applied sequentially, there should be no problem.
